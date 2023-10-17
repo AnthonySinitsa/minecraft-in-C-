@@ -2,7 +2,7 @@
 #include "Shader/Shader.h"
 
 void Renderer::draw(){
-  Shader shader("src/Shader/vertex.shader", "src/Shader/fragment.shader");
+  Shader shader("../src/Shader/vertex.shader", "../src/Shader/fragment.shader");
   shader.use();
 
   // Cube vertices
