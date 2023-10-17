@@ -1,29 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-
-// Cube Vertices and indices
-// Cube vertices
-float vertices[] = {
-  -0.5f, -0.5f, -0.5f,
-  0.5f, -0.5f, -0.5f,
-  0.5f,  0.5f, -0.5f,
-  -0.5f,  0.5f, -0.5f,
-  -0.5f, -0.5f,  0.5f,
-  0.5f, -0.5f,  0.5f,
-  0.5f,  0.5f,  0.5f,
-  -0.5f,  0.5f,  0.5f,
-};
-
-// Indices for each triangle that makes up each face of the cube
-unsigned int indices[] = {
-  0, 1, 2, 2, 3, 0,
-  4, 5, 6, 6, 7, 4,
-  0, 1, 5, 5, 4, 0,
-  2, 3, 7, 7, 6, 2,
-  1, 2, 6, 6, 5, 1,
-  4, 0, 3, 3, 7, 4
-};
+#include "Renderer/Renderer.h"
 
 int main(){
   // Initialize GLFW and GLEW, create window
@@ -50,17 +28,13 @@ int main(){
 
   std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
+  Renderer renderer; // Create a renderer object
+
   while (!glfwWindowShouldClose(window)){
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Bing the shaer program and VAO
-    // Draw the cube
-    glBegin(GL_TRIANGLES);
-    glVertex2f(-0.5f, -0.5f);
-    glVertex2f(0.0f, 0.5f);
-    glVertex2f(0.5f, -0.5f);
-    glEnd();
+    renderer.draw(); // Call draw method of renderer object
 
     // Swap buffers and poll events
     glfwSwapBuffers(window);
