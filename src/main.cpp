@@ -1,9 +1,20 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <unistd.h>
 #include <iostream>
+#include <limits.h>
 #include "Renderer/Renderer.h"
 
 int main(){
+  // Print the current working directory
+  char cwd[PATH_MAX];
+  if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    std::cout << "Current working dir: " << cwd << std::endl;
+  } else {
+    perror("getcwd() error");
+    return 1;  // Return an error code
+  }
+
   // Initialize GLFW and GLEW, create window
   if(!glfwInit()){
     std::cerr << "Failed to initialize GLFW" << std::endl;
