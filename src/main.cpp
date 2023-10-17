@@ -4,6 +4,9 @@
 #include <iostream>
 #include <limits.h>
 #include "Renderer/Renderer.h"
+#include "Camera.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 int main(){
   // Print the current working directory
@@ -40,10 +43,30 @@ int main(){
   std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
   Renderer renderer; // Create a renderer object
+  Camera camera; // Create a camera object
+
+  float lastFrame = 0.0f; // Last frame
+  float deltaTime; // Time between current frame and last frame
 
   while (!glfwWindowShouldClose(window)){
+    // Time logic
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
+    // Process input
+    bool forward = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
+    bool backward = glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
+    bool left = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
+    bool right = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
+    camera.processKeyboardInput(forward, backward, left, right, deltaTime);
+
     // Clear the screen
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // update view matrix using camera and send it to the shader before rendering
+    glm::mat4 view = camera.calculateViewMatrix();
 
     renderer.draw(); // Call draw method of renderer object
 
