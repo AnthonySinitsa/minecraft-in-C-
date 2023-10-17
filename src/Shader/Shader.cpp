@@ -8,6 +8,11 @@ Shader::Shader(const std::string& vertexFilePath, const std::string& fragmentFil
     std::string vertexCode = loadShaderFile(vertexFilePath);
     std::string fragmentCode = loadShaderFile(fragmentFilePath);
 
+    if(vertexCode.empty() || fragmentCode.empty()) {
+        std::cerr << "ERROR::SHADER::CODE_IS_EMPTY" << std::endl;
+        return;
+    }
+
     // Compile the shaders
     unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexCode.c_str());
     unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentCode.c_str());
@@ -34,6 +39,10 @@ Shader::Shader(const std::string& vertexFilePath, const std::string& fragmentFil
 
 std::string Shader::loadShaderFile(const std::string& filepath) {
     std::ifstream file(filepath);
+    if (!file.is_open()) {
+        std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: " << filepath << std::endl;
+        return "";
+    }
     std::stringstream codeStream;
     codeStream << file.rdbuf();
     file.close();
