@@ -12,6 +12,8 @@ public:
   void use();
   void stop();
 
+  unsigned int getShaderID() const;
+
 private:
   unsigned int shaderID;
 

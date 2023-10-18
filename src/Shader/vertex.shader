@@ -1,10 +1,12 @@
-#version 330 core
-layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0
+#version 140
 
-out vec3 ourColor;    // output a color to the fragment shader
+in vec3 aPos;
+out vec3 ourColor;
+
+uniform mat4 u_View;
 
 void main()
 {
-    gl_Position = vec4(aPos, 1.0);   // set the vertex positions
-    ourColor = aPos;    // set the output color to the vertex position (to get a gradient effect)
+    gl_Position = u_View * vec4(aPos, 1.0);
+    ourColor = vec3(0.5, 0.0, 0.0);  // Set a fixed color to ensure that the shader is working
 }
