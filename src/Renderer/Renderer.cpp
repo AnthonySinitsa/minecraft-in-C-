@@ -1,11 +1,16 @@
 #include "Renderer.h"
-#include "Shader/Shader.h"
+#include "Shader.h"
 #include <GL/glew.h>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
-void Renderer::draw(){
+void Renderer::draw(const glm::mat4& view){
   Shader shader("../src/Shader/vertex.shader", "../src/Shader/fragment.shader");
   shader.use();
+
+  // Send view matrix to shader
+  int viewLoc = glGetUniformLocation(shader.getShaderID(), "u_View");
+  glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
   // Cube vertices
   float vertices[] = {

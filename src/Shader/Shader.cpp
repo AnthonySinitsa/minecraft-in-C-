@@ -77,3 +77,7 @@ void Shader::stop() {
 Shader::~Shader() {
     glDeleteProgram(shaderID);
 }
+
+unsigned int Shader::getShaderID() const {
+    return shaderID;
+}

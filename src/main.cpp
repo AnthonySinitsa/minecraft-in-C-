@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <limits.h>
-#include "Renderer/Renderer.h"
+#include "Renderer.h"
 #include "Camera.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -17,6 +17,11 @@ int main(){
     perror("getcwd() error");
     return 1;  // Return an error code
   }
+
+  glfwSetErrorCallback([](int error, const char* description) {
+    std::cerr << "GLFW Error " << error << ": " << description << std::endl;
+  });
+
 
   // Initialize GLFW and GLEW, create window
   if(!glfwInit()){
@@ -68,7 +73,7 @@ int main(){
     // update view matrix using camera and send it to the shader before rendering
     glm::mat4 view = camera.calculateViewMatrix();
 
-    renderer.draw(); // Call draw method of renderer object
+    renderer.draw(view); // Call draw method of renderer object
 
     // Swap buffers and poll events
     glfwSwapBuffers(window);

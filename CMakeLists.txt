@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add an executable
-add_executable(MinecraftInCpp src/main.cpp src/Renderer/Renderer.cpp src/Shader/Shader.cpp)
+add_executable(MinecraftInCpp src/main.cpp src/Renderer/Renderer.cpp src/Shader/Shader.cpp src/Camera/Camera.cpp)
 
 # Add the include directories for OpenGL, GLEW, and GLFW
 # Adjust these paths to where your headers are located
