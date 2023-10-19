@@ -35,6 +35,27 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
   }
 }
 
+void mouseCallback(GLFWwindow* window, double xpos, double ypos)
+{
+  static float lastX = 400, lastY = 300;
+  static bool firstMouse = true;
+
+  if (firstMouse)
+  {
+    lastX = xpos;
+    lastY = ypos;
+    firstMouse = false;
+  }
+
+  float xoffset = xpos - lastX;
+  float yoffset = lastY - ypos; // Reversed since y-coordinates range from bottom to top
+
+  lastX = xpos;
+  lastY = ypos;
+
+  camera.processMouseMovement(xoffset, yoffset);
+}
+
 int main(){
   // Print the current working directory
   char cwd[PATH_MAX];
@@ -67,6 +88,9 @@ int main(){
   // Load and compile shaders, create shader program
   glfwMakeContextCurrent(window);
 
+  // Disable cursor
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
   if(glewInit() != GLEW_OK){
     std::cerr << "Failed to initialize GLFW" << std::endl;
     return -1;
@@ -81,6 +105,7 @@ int main(){
   float deltaTime; // Time between current frame and last frame
 
   glfwSetKeyCallback(window, keyCallback);
+  glfwSetCursorPosCallback(window, mouseCallback);
 
   while (!glfwWindowShouldClose(window)){
     // Time logic
