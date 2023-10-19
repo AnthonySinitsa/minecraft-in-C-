@@ -8,6 +8,28 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+Camera camera;
+
+// Callback function for handling keyboard input
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+  if (action == GLFW_PRESS || action == GLFW_REPEAT)
+  {
+    bool forward = (key == GLFW_KEY_W);
+    bool backward = (key == GLFW_KEY_S);
+    bool left = (key == GLFW_KEY_A);
+    bool right = (key == GLFW_KEY_D);
+
+    // calculate deltaTime
+    float currentFrame = glfwGetTime();
+    static float lastFrame = currentFrame;
+    float deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
+    camera.processKeyboardInput(forward, backward, left, right, deltaTime);
+  }
+}
+
 int main(){
   // Print the current working directory
   char cwd[PATH_MAX];
@@ -53,21 +75,17 @@ int main(){
   float lastFrame = 0.0f; // Last frame
   float deltaTime; // Time between current frame and last frame
 
+  glfwSetKeyCallback(window, keyCallback);
+
   while (!glfwWindowShouldClose(window)){
     // Time logic
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    // Process input
-    bool forward = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
-    bool backward = glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
-    bool left = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
-    bool right = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
-    camera.processKeyboardInput(forward, backward, left, right, deltaTime);
-
     // Clear the screen
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    // glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClearColor(250.0f / 255.0f, 119.0f / 255.0f, 110.0f / 255.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     // update view matrix using camera and send it to the shader before rendering
