@@ -28,6 +28,7 @@ void Camera::processKeyboardInput(bool forward, bool backward, bool left, bool r
 
 void Camera::processMouseMovement(float xOffset, float yOffset)
 {
+    float sensitivity = 0.1f;
     xOffset *= mouseSensitivity;
     yOffset *= mouseSensitivity;
 
@@ -51,4 +52,8 @@ void Camera::updateCameraVectors()
     front = glm::normalize(newFront);
     right = glm::normalize(glm::cross(front, worldUp));
     up = glm::normalize(glm::cross(right, front));
+
+    // Also re-calculate the Right and Up vector
+    this->right = glm::normalize(glm::cross(this->front, worldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+    this->up    = glm::normalize(glm::cross(this->right, this->front));
 }
