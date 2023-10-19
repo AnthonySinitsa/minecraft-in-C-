@@ -7,7 +7,7 @@
 
 class Renderer {
 public:
-    void draw(const glm::mat4& view);
+    void draw(const glm::mat4& view, const glm::mat4& projection);
 };
 
 #endif //RENDERER_H

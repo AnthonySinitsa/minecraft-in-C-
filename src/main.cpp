@@ -96,16 +96,28 @@ int main(){
     return -1;
   }
 
+  // Enable depth test
+  glEnable(GL_DEPTH_TEST);
+
   std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
 
   Renderer renderer; // Create a renderer object
-  Camera camera; // Create a camera object
 
   float lastFrame = 0.0f; // Last frame
   float deltaTime; // Time between current frame and last frame
 
+  // Create a projection matrix
+  float fov = glm::radians(45.0f); // 45-degree field of view
+  float aspectRatio = 800.0f / 600.0f; // Adjust according to your window's size
+  float nearPlane = 0.1f; // Anything closer than 0.1 units will be clipped
+  float farPlane = 100.0f; // Anything further than 100 units will be clipped
+  glm::mat4 projection = glm::perspective(fov, aspectRatio, nearPlane, farPlane);
+
   glfwSetKeyCallback(window, keyCallback);
   glfwSetCursorPosCallback(window, mouseCallback);
+
+  // create a projection matrix
+  glm::mat4 projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f);
 
   while (!glfwWindowShouldClose(window)){
     // Time logic
@@ -121,7 +133,7 @@ int main(){
     // update view matrix using camera and send it to the shader before rendering
     glm::mat4 view = camera.calculateViewMatrix();
 
-    renderer.draw(view); // Call draw method of renderer object
+    renderer.draw(view, projection); // Call draw method of renderer object
 
     // Swap buffers and poll events
     glfwSwapBuffers(window);
