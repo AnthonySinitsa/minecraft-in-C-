@@ -20,6 +20,11 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     bool left = (key == GLFW_KEY_A);
     bool right = (key == GLFW_KEY_D);
 
+    if(forward) std::cout << "W key pressed" << std::endl;
+    if(backward) std::cout << "S key pressed" << std::endl;
+    if(left) std::cout << "A key pressed" << std::endl;
+    if(right) std::cout << "D key pressed" << std::endl;
+
     // calculate deltaTime
     float currentFrame = glfwGetTime();
     static float lastFrame = currentFrame;
