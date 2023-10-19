@@ -117,7 +117,7 @@ int main(){
   glfwSetCursorPosCallback(window, mouseCallback);
 
   // create a projection matrix
-  glm::mat4 projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f);
+  projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f);
 
   while (!glfwWindowShouldClose(window)){
     // Time logic
@@ -128,7 +128,7 @@ int main(){
     // Clear the screen
     // glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClearColor(250.0f / 255.0f, 119.0f / 255.0f, 110.0f / 255.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // update view matrix using camera and send it to the shader before rendering
     glm::mat4 view = camera.calculateViewMatrix();
