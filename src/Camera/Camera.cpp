@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include <GLFW/glfw3.h>
+#include <iostream>
 
 Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, float startYaw, float startPitch)
     : position(startPosition), worldUp(startUp), yaw(startYaw), pitch(startPitch)
@@ -20,10 +21,15 @@ void Camera::processKeyboardInput(bool forward, bool backward, bool left, bool r
         position += front * velocity;
     if (backward)
         position -= front * velocity;
-    if (left)
-        position -= right * velocity;
-    if (right)
-        position += right * velocity;
+    if (right) 
+        position += glm::normalize(glm::cross(front, up)) * velocity;
+    if (left) 
+        position -= glm::normalize(glm::cross(front, up)) * velocity;
+
+    // Debugging output
+    std::cout << "Position: " << position.x << ", " << position.y << ", " << position.z << std::endl;
+    std::cout << "Front: " << front.x << ", " << front.y << ", " << front.z << std::endl;
+    std::cout << "DeltaTime: " << deltaTime << std::endl;
 }
 
 void Camera::processMouseMovement(float xOffset, float yOffset)
